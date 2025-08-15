@@ -25,7 +25,7 @@ const Register = () => {
       <div className="bg-amber-600 rounded-full blur-3xl opacity-30 absolute md:w-[50vh] w-[30vh] h-[30vh]" />
       <div className="grid lg:grid-cols-2 gap-5 items-center h-screen justify-center">
         <img
-          src="/img/landing.png"
+          src="/img/landing.webp"
           alt="landing page image"
           className="hidden lg:inline-block max-h-screen w-full object-cover backdrop-blur-2xl shadow-amber-600"
         />
