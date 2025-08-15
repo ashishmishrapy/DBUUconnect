@@ -6,7 +6,7 @@ const Landing = () => {
       <div className="bg-amber-600 rounded-full blur-3xl w opacity-30 absolute h-[30vh]" />
       <div className="grid lg:grid-cols-2 gap-5 items-center h-screen justify-center">
         <img
-          src="/img/landing.png"
+          src="/img/landing.webp"
           alt=""
           className="hidden lg:inline-block max-h-screen w-full object-cover "
         />
