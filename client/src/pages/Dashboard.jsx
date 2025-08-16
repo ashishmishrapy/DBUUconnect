@@ -10,24 +10,24 @@ import { useNavigate } from 'react-router-dom';
 
 
 const Dashboard = () => {
-  const navigate = useNavigate()
-   useEffect(() => {
-    const checkLogin = async () => {
-      try {
-        const res = await axios.get("https://dbuuconnect-backend.onrender.com/check-auth", {
-          withCredentials: true
-        });
+  // const navigate = useNavigate()
+  //  useEffect(() => {
+  //   const checkLogin = async () => {
+  //     try {
+  //       const res = await axios.get("https://dbuuconnect-backend.onrender.com/check-auth", {
+  //         withCredentials: true
+  //       });
 
-        if (!res.data.success) {
-          navigate("/login");
-        }
-      } catch {
-        navigate("/login"); // If request fails, go to login
-      }
-    };
+  //       if (res.data.success) {
+  //         navigate("/dashboard");
+  //       }
+  //     } catch {
+  //       navigate("/login"); // If request fails, go to login
+  //     }
+  //   };
 
-    checkLogin();
-  }, []);
+  //   checkLogin();
+  // }, []);
 
   const cardData = [
   {

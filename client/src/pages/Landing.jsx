@@ -1,6 +1,26 @@
-import { Link } from "react-router-dom";
+import axios from "axios";
+import { useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 const Landing = () => {
+  const navigate = useNavigate()
+   useEffect(() => {
+    const checkLogin = async () => {
+      try {
+        const res = await axios.get("https://dbuuconnect-backend.onrender.com/check-auth", {
+          withCredentials: true
+        });
+
+        if (res.data.success) {
+          navigate("/dashboard");
+        }
+      } catch {
+        navigate("/"); // If request fails, go to login
+      }
+    };
+
+    checkLogin();
+  }, []);
   return (
     <div className="bg-zinc-900 min-h-screen max-h-screen overflow-hidden">
       <div className="bg-amber-600 rounded-full blur-3xl w opacity-30 absolute h-[30vh]" />
