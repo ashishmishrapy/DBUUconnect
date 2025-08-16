@@ -4,11 +4,13 @@ import { MdMenuBook } from "react-icons/md";
 import { MdOutlineLaptopChromebook } from "react-icons/md";
 import { FaRegKissWinkHeart } from "react-icons/fa";
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 
 
 
 const Dashboard = () => {
+  const navigate = useNavigate()
    useEffect(() => {
     const checkLogin = async () => {
       try {
