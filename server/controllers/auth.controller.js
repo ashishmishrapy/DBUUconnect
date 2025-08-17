@@ -40,12 +40,20 @@ export const login = async (req, res) => {
       userId: user._id,
       email: user.email,
       password: user.password
-    },process.env.JWT_SECRET, {expiresIn: '1h'})
+    },process.env.JWT_SECRET, {expiresIn: '1d'})
 
-    res.cookie('token',token, {maxAge: 60 * 60 * 1000})
+    res.cookie('token',token, {maxAge: 24 * 60 * 60 * 1000})
     res.json({ success: true, message: "Login successful" });
+    
   } catch (err) {
     console.error("Login error:", err);
     res.status(500).json({ success: false, message: "Server error" });
   }
+}
+
+export const logout = (req, res) => {
+   res.clearCookie("token", {
+    path: "/",
+  });
+  res.json({ success: true, message: "Logged out" })
 }

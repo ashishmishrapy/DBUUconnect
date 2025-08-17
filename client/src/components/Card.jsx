@@ -1,10 +1,18 @@
 import { GoDotFill } from "react-icons/go";
-import { MdMenuBook } from "react-icons/md";
+import { useNavigate, useParams } from "react-router-dom";
 
 
 
 
 const Card = ({title, icon, online, rules}) => {
+  const handleClick = ()=>{
+    const navigate = useNavigate()
+    const title = useParams()
+   
+    
+    // navigate({`/room/`})
+
+  }
   return (
     <div className='md:w-[30%] rounded-md p-3 text-white w-full bg-zinc-800'>
         <div className='flex justify-between mb-10'>
@@ -17,7 +25,9 @@ const Card = ({title, icon, online, rules}) => {
                 <li className="list-disc ml-5">{rules[1]}</li>
                 <li className="list-disc ml-5">{rules[2]}</li>
             </ul>
-            <button className="bg-blue-600 px-3 py-2 rounded-md cursor-pointer hover:bg-blue-800 active:bg-blue-800 ">Join Room</button>
+            <button
+            onClick={handleClick}
+            className="bg-blue-600 px-3 py-2 rounded-md cursor-pointer hover:bg-blue-800 active:bg-blue-800 ">Join Room</button>
         </div>
         
     </div>

@@ -12,6 +12,7 @@ const Login = () => {
       const res = await axios.post("http://localhost:3000/login", loginForm, { withCredentials: true });
       if (res.data.success) {
         navigate("/dashboard");
+        console.log("Login Success");
       } else {
         setError(res.data.message || "Invalid credentials");
       }

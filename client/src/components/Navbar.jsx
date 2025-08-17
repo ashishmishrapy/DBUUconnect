@@ -1,11 +1,21 @@
 import React from "react";
 import { IoIosNotificationsOutline } from "react-icons/io";
 import { CgProfile } from "react-icons/cg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import axios from "axios"
 
 export const Navbar = () => {
   const [profileMenu, setProfileMenu] = useState(false);
+  const navigate = useNavigate()
+  const logOutHandle = async ()=>{
+    try{
+      await axios.post("http://localhost:3000/logout",{},{ withCredentials : true })
+      navigate("/login")
+    }catch(err){
+      console.log(err);
+    }
+  }
   return (
     <div className="bg-zinc-800 flex justify-between backdrop-shadow-2xl items-center py-2 px-5 md:px-15">
       <h1 className="text-[30px] text-amber-600 text-shadow-black text-shadow-md font-black tracking-tighter">
@@ -28,10 +38,13 @@ export const Navbar = () => {
             !profileMenu && "hidden"
           } `}
         >
-          <Link className="hover:text-black" to="/profile">
+          <Link
+          className="hover:text-black" to="/profile">
             Profile
           </Link>
-          <Link className="hover:text-black" to="/login">
+          <Link 
+          onClick={logOutHandle}
+          className="hover:text-black">
             Logout
           </Link>
         </div>

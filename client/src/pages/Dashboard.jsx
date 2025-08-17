@@ -1,13 +1,10 @@
 import { Navbar } from '../components/Navbar'
 import Card from '../components/Card'
-import { MdMenuBook } from "react-icons/md";
-import { MdOutlineLaptopChromebook } from "react-icons/md";
-import { FaRegKissWinkHeart } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import axios from 'axios';
 
-const Dashboard = () => {
+const Dashboard = ({cardData}) => {
   const navigate = useNavigate()
    useEffect(() => {
     const checkLogin = async () => {
@@ -26,41 +23,7 @@ const Dashboard = () => {
 
     checkLogin();
   }, [navigate]);
-  const cardData = [
-  {
-    id: 1,
-    title: "Study Hall",
-    icon: <MdMenuBook />,
-    online: 142,
-    rules: [
-      "Academic discussions and study groups",
-      "Don't Spam.",
-      "Only Study talks allowed."
-    ]
-  },
-  {
-    id: 2,
-    title: "Coding Zone",
-    icon: <MdOutlineLaptopChromebook />,
-    online: 87,
-    rules: [
-      "Ask and answer coding questions",
-      "Share resources and projects",
-      "Respect other learners"
-    ]
-  },
-  {
-    id: 3,
-    title: "Fun Lounge",
-    icon: <FaRegKissWinkHeart />,
-    online: 54,
-    rules: [
-      "Casual chat and memes",
-      "Keep it friendly",
-      "Flirting allowed"
-    ]
-  }
-];
+
 
   let data = "const showRooms = ()=>{"
   return (

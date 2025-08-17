@@ -4,7 +4,7 @@ import cors from 'cors';
 import { connectDB } from './config/db.js';
 import cookieParser from 'cookie-parser';
 import { verifyToken } from './middlewares/auth.jwt.js';
-import { login, register } from './controllers/auth.controller.js';
+import { login, logout, register } from './controllers/auth.controller.js';
 
 dotenv.config();
 connectDB();
@@ -22,7 +22,7 @@ app.use("/user",verifyToken)
 
 app.post('/register', register);
 app.post('/login', login);
-
+app.post('/logout', logout)
 
 app.get("/check-auth", verifyToken, (req, res) => {
   res.json({ success: true, user: req.user });
