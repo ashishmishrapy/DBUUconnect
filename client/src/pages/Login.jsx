@@ -9,7 +9,7 @@ const Login = () => {
 
   const handleClick = async () => {
     try {
-      const res = await axios.post("https://dbuuconnect-backend.onrender.com/login", loginForm, { withCredentials: true });
+      const res = await axios.post("http://localhost:3000/login", loginForm, { withCredentials: true });
       if (res.data.success) {
         navigate("/dashboard");
       } else {

@@ -1,15 +1,41 @@
-import React from 'react'
+import React from "react";
 import { IoIosNotificationsOutline } from "react-icons/io";
 import { CgProfile } from "react-icons/cg";
+import { Link } from "react-router-dom";
+import { useState } from "react";
 
 export const Navbar = () => {
+  const [profileMenu, setProfileMenu] = useState(false);
   return (
-    <div className='bg-zinc-800 flex justify-between backdrop-shadow-2xl items-center py-2 px-5 md:px-15'>
-        <h1 className='text-[30px] text-amber-600 text-shadow-black text-shadow-md font-black tracking-tighter'>DBUU <span className='text-[20px] text-zinc-600 text-shadow-none font-light'>connect</span></h1>
-        <div className='flex gap-3 justify-center items-center'>
-            <IoIosNotificationsOutline className='font-bold text-white p-3 text-[45px] hover:bg-zinc-700 active:bg-zinc-700 rounded'  />
-            <CgProfile className='font-bold text-white p-3 text-[45px] hover:bg-zinc-700 active:bg-zinc-700 rounded' />
+    <div className="bg-zinc-800 flex justify-between backdrop-shadow-2xl items-center py-2 px-5 md:px-15">
+      <h1 className="text-[30px] text-amber-600 text-shadow-black text-shadow-md font-black tracking-tighter">
+        DBUU{" "}
+        <span className="text-[20px] text-zinc-600 text-shadow-none font-light">
+          connect
+        </span>
+      </h1>
+      <div className="flex gap-3 justify-center relative items-center">
+        <IoIosNotificationsOutline className="font-bold text-white p-3 text-[45px] hover:bg-zinc-700 active:bg-zinc-700 rounded" />
+        <CgProfile
+          onMouseEnter={() => setProfileMenu(true)}
+          onMouseLeave={() => setProfileMenu(false)}
+          className="font-bold text-white p-3 text-[45px] hover:bg-zinc-700 active:bg-zinc-700 rounded"
+        />
+        <div
+          onMouseEnter={() => setProfileMenu(true)}
+          onMouseLeave={() => setProfileMenu(false)}
+          className={`absolute bg-zinc-300 flex flex-col items-center justify-center rounded w-20 h-20 text-zinc-700 font-medium top-11 ${
+            !profileMenu && "hidden"
+          } `}
+        >
+          <Link className="hover:text-black" to="/profile">
+            Profile
+          </Link>
+          <Link className="hover:text-black" to="/login">
+            Logout
+          </Link>
         </div>
+      </div>
     </div>
-  )
-}
+  );
+};

@@ -3,32 +3,29 @@ import Card from '../components/Card'
 import { MdMenuBook } from "react-icons/md";
 import { MdOutlineLaptopChromebook } from "react-icons/md";
 import { FaRegKissWinkHeart } from "react-icons/fa";
-import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-
-
+import { useEffect } from 'react';
+import axios from 'axios';
 
 const Dashboard = () => {
-  // const navigate = useNavigate()
-  //  useEffect(() => {
-  //   const checkLogin = async () => {
-  //     try {
-  //       const res = await axios.get("https://dbuuconnect-backend.onrender.com/check-auth", {
-  //         withCredentials: true
-  //       });
+  const navigate = useNavigate()
+   useEffect(() => {
+    const checkLogin = async () => {
+      try {
+        const res = await axios.get("http://localhost:3000/check-auth", {
+          withCredentials: true
+        });
 
-  //       if (res.data.success) {
-  //         navigate("/dashboard");
-  //       }
-  //     } catch {
-  //       navigate("/login"); // If request fails, go to login
-  //     }
-  //   };
+        if (!res.data.success) {
+          navigate("/");
+        }
+      } catch {
+        navigate("/"); // If request fails, go to login
+      }
+    };
 
-  //   checkLogin();
-  // }, []);
-
+    checkLogin();
+  }, [navigate]);
   const cardData = [
   {
     id: 1,
@@ -81,6 +78,7 @@ const Dashboard = () => {
             ))
           }
         </div>
+        <p className='text-zinc-500 font-light p-5 text-[10px]'>{"};"}</p>
     </div>
   )
 }

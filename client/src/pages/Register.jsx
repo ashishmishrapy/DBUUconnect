@@ -9,7 +9,7 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("https://dbuuconnect-backend.onrender.com/register", form);
+      const response = await axios.post("http://localhost:3000/register", form);
 
       if (response.data.success) {
         setForm({ name: "", email: "", password: "" });
