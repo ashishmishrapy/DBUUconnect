@@ -7,12 +7,13 @@ import Room from './pages/Room'
 import { MdMenuBook } from "react-icons/md";
 import { MdOutlineLaptopChromebook } from "react-icons/md";
 import { FaRegKissWinkHeart } from "react-icons/fa";
+import { useState } from 'react'
 
 const App = () => {
   
   const cardData = [
     {
-      id: 1,
+      id: 108,
       title: "Study Hall",
       icon: <MdMenuBook />,
       online: 142,
@@ -23,7 +24,7 @@ const App = () => {
       ]
     },
     {
-      id: 2,
+      id: 404,
       title: "Coding Zone",
       icon: <MdOutlineLaptopChromebook />,
       online: 87,
@@ -34,7 +35,7 @@ const App = () => {
       ]
     },
     {
-      id: 3,
+      id: 69,
       title: "Fun Lounge",
       icon: <FaRegKissWinkHeart />,
       online: 54,
@@ -45,15 +46,18 @@ const App = () => {
       ]
     }
   ];
+  const [form, setForm] = useState({ name: "", email: "", password: "" });
+  
+  
   
   return (
     <>
     <Routes>
       <Route path="/" element={<Landing />} />
-      <Route path="/register" element={<Register />} />
+      <Route path="/register" element={<Register form={form} setForm={setForm} />} />
       <Route path="/login" element={<Login />} />
       <Route path="/dashboard" element={<Dashboard cardData={cardData} />} />
-      <Route path={`/room}`} element={<Room />} />
+      <Route path={"/room/:id"} element={<Room />} />
     </Routes>
     </>
   )

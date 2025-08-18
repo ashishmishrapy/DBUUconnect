@@ -37,7 +37,7 @@ const Dashboard = ({cardData}) => {
         <div className='p-3 flex md:flex-row justify-center flex-col gap-5 pb-10'>
           {
             cardData.map((card)=>(
-              <Card key={card.id} title={card.title} icon={card.icon} online={card.online} rules={card.rules} />
+              <Card key={card.id} id={card.id} title={card.title} icon={card.icon} online={card.online} rules={card.rules} />
             ))
           }
         </div>

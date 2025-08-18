@@ -1,17 +1,13 @@
 import { GoDotFill } from "react-icons/go";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 
 
 
-const Card = ({title, icon, online, rules}) => {
+const Card = ({id, title, icon, online, rules}) => {
+  const navigate = useNavigate()
   const handleClick = ()=>{
-    const navigate = useNavigate()
-    const title = useParams()
-   
-    
-    // navigate({`/room/`})
-
+    navigate(`/room/${id}`)
   }
   return (
     <div className='md:w-[30%] rounded-md p-3 text-white w-full bg-zinc-800'>

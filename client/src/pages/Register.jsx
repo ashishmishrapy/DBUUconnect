@@ -2,8 +2,8 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
-const Register = () => {
- const [form, setForm] = useState({ name: "", email: "", password: "" });
+const Register = ({form, setForm}) => {
+//  const [form, setForm] = useState({ name: "", email: "", password: "" });
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
