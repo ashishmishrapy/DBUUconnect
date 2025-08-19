@@ -5,7 +5,7 @@ import axios from "axios";
 import { Navbar } from "../components/Navbar";
 import { CgArrowLeft } from "react-icons/cg";
 
-const socket = io("https://dbuuconnect-backend.onrender.com/check-auth", { withCredentials: true });
+const socket = io("https://dbuuconnect-backend.onrender.com", { withCredentials: true });
 
 const Room = ({colors}) => {
   const [name, setName] = useState("");
