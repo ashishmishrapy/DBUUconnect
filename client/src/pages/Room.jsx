@@ -98,9 +98,9 @@ const Room = ({colors}) => {
             ))}
           </div>
 
-          <div className="mt-3 flex gap-2">
+          <div className="mt-3 flex flex-col gap-2">
             <input
-              className="flex-1 p-2 outline-none rounded bg-zinc-700 text-white"
+              className="w-full p-2 outline-none rounded bg-zinc-700 text-white"
               value={newMessage}
               onChange={(e) => setNewMessage(e.target.value)}
             />
