@@ -5,11 +5,12 @@ import { useEffect } from 'react';
 import axios from 'axios';
 
 const Dashboard = ({cardData}) => {
+  const token = localStorage.getItem("token");
   const navigate = useNavigate()
    useEffect(() => {
     const checkLogin = async () => {
       try {
-        const res = await axios.get("https://dbuuconnect-backend.onrender.com/check-auth", {
+        const res = await axios.get("https://dbuuconnect-backend.onrender.com/check-auth", {headers: { Authorization: `Bearer ${token}` }}, {
           withCredentials: true
         });
 

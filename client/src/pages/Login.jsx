@@ -19,8 +19,9 @@ const Login = () => {
         loginForm,
         { withCredentials: true }
       );
-
+      
       if (res.data.success) {
+        localStorage.setItem("token", res.data.token); 
         console.log("Login Success");
         navigate("/dashboard", { replace: true });
       } else {
@@ -43,7 +44,7 @@ const Login = () => {
           className="hidden lg:inline-block max-h-screen w-full object-cover backdrop-blur-2xl shadow-amber-600"
         />
         <div className="text-center">
-          <h1 className="text-white font-bold tracking-tighter text-[60px] leading-none">
+          <h1 className="text-white font-bold tracking-tighter text-[50px] md:text-[60px] leading-none">
             Welcome to <br />
             <span className="border-b-amber-600 border-b-3"> DBUUConnect </span>
           </h1>
@@ -51,7 +52,6 @@ const Login = () => {
             Your one-stop solution to connect with your fellow DBUUians{" "}
           </p>
 
-          {/* ✅ Wrap in form */}
           <form onSubmit={handleSubmit} className="mt-5">
             <input
               type="email"

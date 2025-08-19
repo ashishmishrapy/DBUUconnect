@@ -4,10 +4,11 @@ import { Link, useNavigate } from "react-router-dom";
 
 const Landing = () => {
   const navigate = useNavigate()
+  const token = localStorage.getItem("token");
    useEffect(() => {
   const checkLogin = async () => {
     try {
-      const res = await axios.get("https://dbuuconnect-backend.onrender.com/check-auth", {
+    const res = await axios.get("https://dbuuconnect-backend.onrender.com/check-auth",{headers: { Authorization: `Bearer ${token}` }}, {
         withCredentials: true,
       });
 
