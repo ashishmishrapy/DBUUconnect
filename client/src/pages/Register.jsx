@@ -2,14 +2,29 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
-const Register = ({form, setForm}) => {
-//  const [form, setForm] = useState({ name: "", email: "", password: "" });
+const Register = () => {
+  const [form, setForm] = useState({ name: "", email: "", password: "" });
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (form.name.trim().length < 3) {
+      alert("Name must be at least 3 characters long");
+      return;
+    }
+
+    if (form.email.length < 15) {
+      alert("Email must be at least 15 characters long");
+      return;
+    }
+
+    if (form.password.length < 6) {
+      alert("Password must be at least 6 characters long");
+      return;
+    }
+
     try {
-      const response = await axios.post("http://localhost:3000/register", form);
+      const response = await axios.post("https://dbuuconnect-backend.onrender.com/register", form);
 
       if (response.data.success) {
         setForm({ name: "", email: "", password: "" });
@@ -19,7 +34,7 @@ const Register = ({form, setForm}) => {
       console.error("Registration error:", error);
     }
   };
-  
+
   return (
     <div className="bg-zinc-900 min-h-screen max-h-screen overflow-hidden">
       <div className="bg-amber-600 rounded-full blur-3xl opacity-30 absolute md:w-[50vh] w-[30vh] h-[30vh]" />
@@ -44,7 +59,7 @@ const Register = ({form, setForm}) => {
               required
               value={form.name}
               className="p-2 outline-none rounded bg-zinc-800 text-white w-[90%] mb-3"
-              onChange={e => setForm({ ...form, name: e.target.value })}
+              onChange={(e) => setForm({ ...form, name: e.target.value })}
             />
             <input
               type="email"
@@ -52,7 +67,7 @@ const Register = ({form, setForm}) => {
               required
               value={form.email}
               className="p-2 outline-none rounded bg-zinc-800 text-white w-[90%] mb-3"
-              onChange={e => setForm({ ...form, email: e.target.value })}
+              onChange={(e) => setForm({ ...form, email: e.target.value })}
             />
             <input
               type="password"
@@ -60,14 +75,13 @@ const Register = ({form, setForm}) => {
               required
               value={form.password}
               className="p-2 outline-none rounded bg-zinc-800 text-white w-[90%] mb-3"
-              onChange={e => setForm({ ...form, password: e.target.value })}
+              onChange={(e) => setForm({ ...form, password: e.target.value })}
             />
             <button
               type="submit"
               className="bg-amber-600 cursor-pointer text-white px-5 py-2 rounded hover:bg-amber-500 transition-all"
               onClick={handleSubmit}
             >
-
               Register
             </button>
           </div>

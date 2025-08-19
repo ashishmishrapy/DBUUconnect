@@ -1,16 +1,18 @@
-import Landing from './pages/Landing'
-import { Routes, Route } from 'react-router-dom'
-import Register from './pages/Register'
-import Login from './pages/Login'
-import Dashboard from './pages/Dashboard'
-import Room from './pages/Room'
+import Landing from "./pages/Landing";
+import { Routes, Route } from "react-router-dom";
+import Register from "./pages/Register";
+import Login from "./pages/Login";
+import Dashboard from "./pages/Dashboard";
+import Room from "./pages/Room";
 import { MdMenuBook } from "react-icons/md";
 import { MdOutlineLaptopChromebook } from "react-icons/md";
 import { FaRegKissWinkHeart } from "react-icons/fa";
-import { useState } from 'react'
+import { useState } from "react";
+import Profile from "./pages/Profile";
 
 const App = () => {
-  
+
+  const [role, setRole] = useState("")
   const cardData = [
     {
       id: 108,
@@ -20,8 +22,8 @@ const App = () => {
       rules: [
         "Academic discussions and study groups",
         "Don't Spam.",
-        "Only Study talks allowed."
-      ]
+        "Only Study talks allowed.",
+      ],
     },
     {
       id: 404,
@@ -31,36 +33,39 @@ const App = () => {
       rules: [
         "Ask and answer coding questions",
         "Share resources and projects",
-        "Respect other learners"
-      ]
+        "Respect other learners",
+      ],
     },
     {
       id: 69,
       title: "Fun Lounge",
       icon: <FaRegKissWinkHeart />,
       online: 54,
-      rules: [
-        "Casual chat and memes",
-        "Keep it friendly",
-        "Flirting allowed"
-      ]
-    }
+      rules: ["Casual chat and memes", "Keep it friendly", "Dont use abusing lang."],
+    },
   ];
-  const [form, setForm] = useState({ name: "", email: "", password: "" });
-  
-  
-  
+
+    const colors = [
+    "bg-red-500",
+    "bg-blue-500",
+    "bg-green-500",
+    "bg-yellow-500",
+    "bg-purple-500",
+    "bg-pink-500",
+    "bg-orange-500",
+  ];
   return (
     <>
-    <Routes>
-      <Route path="/" element={<Landing />} />
-      <Route path="/register" element={<Register form={form} setForm={setForm} />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/dashboard" element={<Dashboard cardData={cardData} />} />
-      <Route path={"/room/:id"} element={<Room />} />
-    </Routes>
+      <Routes>
+        <Route path="/" element={<Landing role={role} />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/dashboard" element={<Dashboard cardData={cardData} />} />
+        <Route path={"/room/:id"} element={<Room colors={colors} />} />
+        <Route path={"/profile"} element={<Profile />} />
+      </Routes>
     </>
-  )
-}
+  );
+};
 
-export default App
+export default App;

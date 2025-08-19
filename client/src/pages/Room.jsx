@@ -7,13 +7,13 @@ import { CgArrowLeft } from "react-icons/cg";
 
 const socket = io("http://localhost:3000", { withCredentials: true });
 
-const Room = () => {
+const Room = ({colors}) => {
   const [name, setName] = useState("");
   const navigate = useNavigate();
   useEffect(() => {
     const checkLogin = async () => {
       try {
-        const res = await axios.get("http://localhost:3000/check-auth", {
+        const res = await axios.get("https://dbuuconnect-backend.onrender.com/check-auth", {
           withCredentials: true,
         });
 
@@ -33,23 +33,27 @@ const Room = () => {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
 
-  useEffect(() => {
-    // Join the room
-    socket.emit("joinRoom", id);
+ useEffect(() => {
+  socket.emit("joinRoom", id);
 
-    // Listen for messages
-    socket.on("message", (msg) => {
-      setMessages((prev) => [...prev, msg]);
-    });
+  socket.on("roomHistory", (history) => {
+    setMessages(history);
+  });
 
-    return () => {
-      socket.emit("leaveRoom", id);
-      socket.off("message");
-    };
-  }, [id]);
+  socket.on("message", (msg) => {
+    setMessages((prev) => [...prev, msg]);
+  });
+
+  return () => {
+    socket.emit("leaveRoom", id);
+    socket.off("message");
+    socket.off("roomHistory");
+  };
+}, [id]);
 
   const sendMessage = () => {
-    socket.emit("sendMessage", { roomId: id, text: newMessage });
+    if (!newMessage.trim()) return;
+    socket.emit("sendMessage", { roomId: id, text: newMessage, sender: name });
     setNewMessage("");
   };
 
@@ -57,25 +61,45 @@ const Room = () => {
     <>
       <div className="bg-zinc-900 min-h-screen">
         <Navbar />
-        <div className="p-5 text-white">
-          <div className="flex gap-3 items-center">
+        <div className="md:p-5 p-1 mt-2 text-white">
+          <div className="flex gap-3 mb-4 items-center">
             <button
-            onClick={()=> navigate(-1)}
-            className="p-1 cursor-pointer rounded-full bg-zinc-700">
-              <CgArrowLeft className="font-bold text-xl" />
+              onClick={() => navigate(-1)}
+              className="p-1 cursor-pointer rounded-full bg-zinc-700"
+            >
+              <CgArrowLeft className="font-bold text-md md:text-xl" />
             </button>
-            <h2 className="text-xl font-bold">Room #{id} </h2>
+            <h2 className="text-sm md:text-lg font-bold">Room #{id} </h2>
           </div>
           <div className="p-3 rounded h-80 overflow-y-auto">
             {messages.map((msg, i) => (
-              <p key={i}>
-               <span className={`text-white capitalize font-semibold`}>{name} </span> <span className="text-[10px] text-zinc-500">  {new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}</span> <br /> <span className="font-semibold text-sm text-zinc-400">{msg}</span>
-              </p>
+              <div className="mb-2" key={i}>
+                <div className="flex gap-3 items-center">
+                  <span className="rounded-full bg-amber-600 flex h-6 w-6 items-center justify-center text-white text-xs font-bold">
+                    {msg.sender ? msg.sender[0] : "?"}
+                  </span>
+                  <div className="text-white capitalize text-sm md:text-lg font-semibold">
+                    {msg.sender}{" "}
+                    <span className="text-[8px] md:text-[10px] text-zinc-500">
+                      {msg.createdAt
+                        ? new Date(msg.createdAt).toLocaleTimeString([], {
+                            hour: "2-digit",
+                            minute: "2-digit",
+                          })
+                        : ""}
+                    </span>
+                  </div>
+                </div>
+                <div className="font-semibold ml-10 text-sm text-zinc-400">
+                  {msg.text}
+                </div>
+              </div>
             ))}
           </div>
+
           <div className="mt-3 flex gap-2">
             <input
-              className="flex-1 p-2 rounded bg-zinc-700 text-white"
+              className="flex-1 p-2 outline-none rounded bg-zinc-700 text-white"
               value={newMessage}
               onChange={(e) => setNewMessage(e.target.value)}
             />

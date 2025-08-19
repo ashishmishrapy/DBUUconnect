@@ -10,7 +10,7 @@ export const Navbar = () => {
   const navigate = useNavigate()
   const logOutHandle = async ()=>{
     try{
-      await axios.post("http://localhost:3000/logout",{},{ withCredentials : true })
+      await axios.post("https://dbuuconnect-backend.onrender.com/logout",{},{ withCredentials : true })
       navigate("/login")
     }catch(err){
       console.log(err);
@@ -18,7 +18,7 @@ export const Navbar = () => {
   }
   return (
     <div className="bg-zinc-800 flex justify-between backdrop-shadow-2xl items-center py-2 px-5 md:px-15">
-      <h1 className="text-[30px] text-amber-600 text-shadow-black text-shadow-md font-black tracking-tighter">
+      <h1 className="md:text-[30px] text-[20px] text-amber-600 text-shadow-black text-shadow-md font-black tracking-tighter">
         DBUU{" "}
         <span className="text-[20px] text-zinc-600 text-shadow-none font-light">
           connect

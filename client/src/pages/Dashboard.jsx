@@ -9,7 +9,7 @@ const Dashboard = ({cardData}) => {
    useEffect(() => {
     const checkLogin = async () => {
       try {
-        const res = await axios.get("http://localhost:3000/check-auth", {
+        const res = await axios.get("https://dbuuconnect-backend.onrender.com/check-auth", {
           withCredentials: true
         });
 

@@ -8,7 +8,7 @@ export const register =  async (req, res) => {
     const { name, email, password } = req.body;
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
-    await User.create({ name, email, password: hashedPassword });
+    await User.create({ name, email, password: hashedPassword, role:"user" });
     res.status(201).json({
       success: true,
       message: "User registered successfully"
@@ -40,7 +40,8 @@ export const login = async (req, res) => {
       userId: user._id,
       name: user.name,
       email: user.email,
-      password: user.password
+      password: user.password,
+      role: user.role
     },process.env.JWT_SECRET, {expiresIn: '1d'})
 
     res.cookie('token',token, {maxAge: 24 * 60 * 60 * 1000})

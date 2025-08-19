@@ -7,7 +7,7 @@ import { verifyToken } from './middlewares/auth.jwt.js';
 import { login, logout, register } from './controllers/auth.controller.js';
 import { Server } from "socket.io"
 import { createServer } from "http"
-import { User } from './models/user.model.js';
+import { Message } from "./models/message.model.js";
 
 
 dotenv.config();
@@ -18,14 +18,14 @@ const server = createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:5173",
+    origin: "https://dbuuconnect.vercel.app",
     credentials: true,
   },
 });
 
 app.use(cookieParser())
 app.use(cors({
-  origin: "http://localhost:5173", 
+  origin: "https://dbuuconnect.vercel.app", 
   credentials: true
 }));
 app.use(express.json());
@@ -38,21 +38,23 @@ app.post('/logout', logout)
 
 
 
-
-//io config
-
-
-
 io.on("connection", (socket) => {
   console.log("User connected", socket.id);
 
-  socket.on("joinRoom", (roomId) => {
+  socket.on("joinRoom", async (roomId) => {
     socket.join(roomId);
     console.log(`User ${socket.id} joined room ${roomId}`);
+
+    // send room history
+    const history = await Message.find({ roomId }).sort({ createdAt: 1 }).limit(50);
+    socket.emit("roomHistory", history);
   });
 
-  socket.on("sendMessage", ({ roomId, text }) => {
-    io.to(roomId).emit("message", text); // broadcast to room
+  socket.on("sendMessage", async ({ roomId, text, sender }) => {
+    const newMsg = new Message({ roomId, sender, text });
+    await newMsg.save();
+
+    io.to(roomId).emit("message", newMsg); 
   });
 
   socket.on("leaveRoom", (roomId) => {
@@ -64,6 +66,7 @@ io.on("connection", (socket) => {
     console.log("User disconnected", socket.id);
   });
 });
+
 
 app.get("/check-auth", verifyToken, async (req, res) => {
   res.json({ success: true, user: req.user});
