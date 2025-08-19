@@ -31,7 +31,7 @@ const Landing = () => {
           className="hidden lg:inline-block max-h-screen w-full object-cover "
         />
         <div className="text-center">
-          <h1 className="text-white font-bold tracking-tighter text-[60px] leading-none">
+          <h1 className="text-white font-bold tracking-tighter md:text-[60px] text-[50px] leading-none">
             Welcome to <br />
             <span className="border-b-amber-600 border-b-3"> DBUUConnect </span>
           </h1>
