@@ -15,9 +15,11 @@ const Dashboard = ({cardData}) => {
 
         if (!res.data.success) {
           navigate("/");
+        }else{
+          navigate("/dashboard",{replace:true})
         }
       } catch {
-        navigate("/"); // If request fails, go to login
+        navigate("/");
       }
     };
 

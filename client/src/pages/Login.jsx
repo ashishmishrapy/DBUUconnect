@@ -9,7 +9,7 @@ const Login = () => {
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); // ✅ stop page reload
+    e.preventDefault();
     setLoading(true);
     setError("");
 
