@@ -5,16 +5,17 @@ import axios from "axios";
 import { Navbar } from "../components/Navbar";
 import { CgArrowLeft } from "react-icons/cg";
 
-const socket = io("http://localhost:3000", { withCredentials: true });
+const socket = io("https://dbuuconnect-backend.onrender.com/check-auth", { withCredentials: true });
 
 const Room = ({colors}) => {
   const [name, setName] = useState("");
+  const token = localStorage.getItem("token")
   const navigate = useNavigate();
   useEffect(() => {
     const checkLogin = async () => {
       try {
-        const res = await axios.get("https://dbuuconnect-backend.onrender.com/check-auth", {
-          withCredentials: true,
+          const res = await axios.get("https://dbuuconnect-backend.onrender.com/check-auth", {headers: { Authorization: `Bearer ${token}` }}, {
+          withCredentials: true
         });
 
         if (!res.data.success) {

@@ -6,13 +6,18 @@ import { Navbar } from "../components/Navbar";
 const Profile = () => {
   const [profile, setProfile] = useState({ name: "", email: "", gender: "" });
   const navigate = useNavigate();
+  const token = localStorage.getItem("token")
 
   useEffect(() => {
     const checkLogin = async () => {
       try {
-        const res = await axios.get("https://dbuuconnect-backend.onrender.com/check-auth", {
-          withCredentials: true,
-        });
+        const res = await axios.get(
+          "https://dbuuconnect-backend.onrender.com/check-auth",
+          { headers: { Authorization: `Bearer ${token}` } },
+          {
+            withCredentials: true,
+          }
+        );
 
         if (!res.data.success) {
           navigate("/");
