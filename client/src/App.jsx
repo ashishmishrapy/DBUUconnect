@@ -57,12 +57,12 @@ const App = () => {
   return (
     <>
       <Routes>
-        {/* <Route path="/" element={<Landing role={role} />} />
+        <Route path="/" element={<Landing role={role} />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/dashboard" element={<Dashboard cardData={cardData} />} /> */}
+        <Route path="/dashboard" element={<Dashboard cardData={cardData} />} />
         <Route path={"/room/:id"} element={<Room colors={colors} />} />
-        {/* <Route path={"/profile"} element={<Profile />} /> */}
+        <Route path={"/profile"} element={<Profile />} />
       </Routes>
     </>
   );
