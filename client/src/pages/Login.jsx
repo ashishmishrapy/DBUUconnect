@@ -22,7 +22,7 @@ const Login = () => {
 
       if (res.data.success) {
         console.log("Login Success");
-        navigate("/dashboard", { replace: true }); // ✅ force navigation
+        navigate("/dashboard", { replace: true });
       } else {
         setError(res.data.message || "Invalid credentials");
       }
