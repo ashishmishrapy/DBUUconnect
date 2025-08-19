@@ -5,19 +5,31 @@ import axios from "axios";
 const Login = () => {
   const [loginForm, setLoginForm] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleClick = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault(); // ✅ stop page reload
+    setLoading(true);
+    setError("");
+
     try {
-      const res = await axios.post("https://dbuuconnect-backend.onrender.com/login", loginForm, { withCredentials: true });
+      const res = await axios.post(
+        "https://dbuuconnect-backend.onrender.com/login",
+        loginForm,
+        { withCredentials: true }
+      );
+
       if (res.data.success) {
-        navigate("/dashboard");
         console.log("Login Success");
+        navigate("/dashboard", { replace: true }); // ✅ force navigation
       } else {
         setError(res.data.message || "Invalid credentials");
       }
     } catch (err) {
       setError(err.response?.data?.message || "Something went wrong");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -38,14 +50,18 @@ const Login = () => {
           <p className="text-lg mt-5 text-zinc-600">
             Your one-stop solution to connect with your fellow DBUUians{" "}
           </p>
-          <div className="mt-5">
+
+          {/* ✅ Wrap in form */}
+          <form onSubmit={handleSubmit} className="mt-5">
             <input
               type="email"
               placeholder="Email"
               required
               value={loginForm.email}
               className="p-2 outline-none rounded bg-zinc-800 text-white w-[90%] mb-3"
-              onChange={e => setLoginForm({ ...loginForm, email: e.target.value })}
+              onChange={(e) =>
+                setLoginForm({ ...loginForm, email: e.target.value })
+              }
             />
             <input
               type="password"
@@ -53,21 +69,24 @@ const Login = () => {
               required
               value={loginForm.password}
               className="p-2 outline-none rounded bg-zinc-800 text-white w-[90%] mb-3"
-              onChange={e => setLoginForm({ ...loginForm, password: e.target.value })}
+              onChange={(e) =>
+                setLoginForm({ ...loginForm, password: e.target.value })
+              }
             />
-            <p className="text-red-500">{error}</p>
+            {error && <p className="text-red-500 mb-2">{error}</p>}
             <button
               type="submit"
-              className="bg-amber-600 cursor-pointer text-white px-5 py-2 rounded hover:bg-amber-500 transition-all"
-              onClick={handleClick}
+              disabled={loading}
+              className="bg-amber-600 cursor-pointer text-white px-5 py-2 rounded hover:bg-amber-500 transition-all disabled:opacity-50"
             >
-              Login
+              {loading ? "Logging in..." : "Login"}
             </button>
-          </div>
+          </form>
+
           <p className="text-sm mt-5 text-zinc-600">
-            Don't have an account?{" "}
+            Don&apos;t have an account?{" "}
             <Link to="/register" className="text-amber-600 hover:underline">
-                Register
+              Register
             </Link>
           </p>
         </div>

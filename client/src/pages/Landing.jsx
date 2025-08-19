@@ -1,10 +1,9 @@
 import axios from "axios";
 import { useEffect } from "react";
-import { Link, useNavigate, useLocation, replace } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Landing = () => {
   const navigate = useNavigate()
-  const location = useLocation()
    useEffect(() => {
   const checkLogin = async () => {
     try {
@@ -20,7 +19,7 @@ const Landing = () => {
   };
 
   checkLogin();
-}, [navigate, location.pathname]); // ✅ depend only on pathname
+}, [navigate]);
 
   return (
     <div className="bg-zinc-900 min-h-screen max-h-screen overflow-hidden">
