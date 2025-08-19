@@ -10,7 +10,7 @@ export const Navbar = () => {
   const navigate = useNavigate()
   const logOutHandle = async ()=>{
     try{
-      await axios.post("https://dbuuconnect-backend.onrender.com/logout",{},{ withCredentials : true })
+      localStorage.removeItem("token");
       navigate("/login")
     }catch(err){
       console.log(err);

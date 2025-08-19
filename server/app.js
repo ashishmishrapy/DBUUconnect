@@ -4,7 +4,7 @@ import cors from 'cors';
 import { connectDB } from './config/db.js';
 import cookieParser from 'cookie-parser';
 import { verifyToken } from './middlewares/auth.jwt.js';
-import { login, logout, register } from './controllers/auth.controller.js';
+import { login, register } from './controllers/auth.controller.js';
 import { Server } from "socket.io"
 import { createServer } from "http"
 import { Message } from "./models/message.model.js";
@@ -34,7 +34,7 @@ app.use("/room",verifyToken)
 
 app.post('/register', register);
 app.post('/login', login);
-app.post('/logout', logout)
+// app.post('/logout', logout)
 
 
 

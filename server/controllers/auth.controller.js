@@ -56,16 +56,13 @@ export const login = async (req, res) => {
       sameSite: "None",
       maxAge: 24 * 60 * 60 * 1000,
     });
-    res.json({ success: true, message: "Login successful" });
+    res.json({ success: true, message: "Login successful",token });
   } catch (err) {
     console.error("Login error:", err);
     res.status(500).json({ success: false, message: "Server error" });
   }
 };
 
-export const logout = (req, res) => {
-  res.clearCookie("token", {
-    path: "/",
-  });
-  res.json({ success: true, message: "Logged out" });
-};
+// export const logout = (req, res) => {
+//   res.json({ success: true, message: "Logged out" });
+// };
