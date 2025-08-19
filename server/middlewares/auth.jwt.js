@@ -1,20 +1,18 @@
 import jwt from "jsonwebtoken";
 // import { User } from "../models/user.model";
+export const verifyToken = (req, res, next) => {
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && authHeader.split(" ")[1];
 
-export const verifyToken =async (req, res, next) => {
-  const token = req.cookies.token;
-  console.log(token);
-  
   if (!token) {
-    return res.status(401).json({ success: false, message: "Not logged in" });
+    return res.status(401).json({ success: false, message: "No token provided" });
   }
 
-  try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+    if (err) {
+      return res.status(403).json({ success: false, message: "Invalid token" });
+    }
     req.user = decoded;
-    // const user = await User.findById(decoded.id).select("-password -email");
     next();
-  } catch {
-    return res.status(401).json({ success: false, message: "Invalid token" });
-  }
+  });
 };
