@@ -15,7 +15,7 @@ const Login = () => {
 
     try {
       const res = await axios.post(
-        "https://dbuuconnect-backend.onrender.com/login",
+        `${import.meta.env.VITE_API_URI}/login`,
         loginForm,
         { withCredentials: true }
       );

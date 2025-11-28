@@ -4,7 +4,7 @@ import cors from 'cors';
 import { connectDB } from './config/db.js';
 import cookieParser from 'cookie-parser';
 import { verifyToken } from './middlewares/auth.jwt.js';
-import { login, register } from './controllers/auth.controller.js';
+import { login, logout, register } from './controllers/auth.controller.js';
 import { Server } from "socket.io"
 import { createServer } from "http"
 import { Message } from "./models/message.model.js";
@@ -18,14 +18,14 @@ const server = createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: "https://dbuuconnect.vercel.app",
+    origin: ["http://localhost:5173", "https://dbuuconnect.vercel.app"],
     credentials: true,
   },
 });
 
 app.use(cookieParser())
 app.use(cors({
-  origin: "https://dbuuconnect.vercel.app", 
+  origin: ["http://localhost:5173", "https://dbuuconnect.vercel.app"],
   credentials: true
 }));
 app.use(express.json());
@@ -34,8 +34,7 @@ app.use("/room",verifyToken)
 
 app.post('/register', register);
 app.post('/login', login);
-// app.post('/logout', logout)
-
+app.post('/logout', logout)
 
 
 io.on("connection", (socket) => {
@@ -50,8 +49,8 @@ io.on("connection", (socket) => {
     socket.emit("roomHistory", history);
   });
 
-  socket.on("sendMessage", async ({ roomId, text, sender }) => {
-    const newMsg = new Message({ roomId, sender, text });
+  socket.on("sendMessage", async ({ roomId, text, sender, color }) => {
+    const newMsg = new Message({ roomId, sender, text, color });
     await newMsg.save();
 
     io.to(roomId).emit("message", newMsg); 
@@ -69,7 +68,7 @@ io.on("connection", (socket) => {
 
 
 app.get("/check-auth", verifyToken, async (req, res) => {
-   if (!req.user) {
+   if (!req.user){
     return res.status(401).json({ success: false });
   }
   res.json({ success: true, user: req.user});

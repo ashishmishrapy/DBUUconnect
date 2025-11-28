@@ -3,24 +3,27 @@ import { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 const Landing = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const token = localStorage.getItem("token");
-   useEffect(() => {
-  const checkLogin = async () => {
-    try {
-    const res = await axios.get("https://dbuuconnect-backend.onrender.com/check-auth",{headers: { Authorization: `Bearer ${token}` }}, {
-        withCredentials: true,
-      });
+  useEffect(() => {
+    const checkLogin = async () => {
+      try {
+        const res = await axios.get(
+          `${import.meta.env.VITE_API_URI}/check-auth`,
+          { headers: { Authorization: `Bearer ${token}` } },
+          {
+            withCredentials: true,
+          }
+        );
 
-      if (res.data.success) {
-        navigate("/dashboard", {replace: true});
-      }
-    } catch {
-    }
-  };
+        if (res.data.success) {
+          navigate("/dashboard", { replace: true });
+        }
+      } catch {}
+    };
 
-  checkLogin();
-}, [navigate]);
+    checkLogin();
+  }, [navigate]);
 
   return (
     <div className="bg-zinc-900 min-h-screen max-h-screen overflow-hidden">

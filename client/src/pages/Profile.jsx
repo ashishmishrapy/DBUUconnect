@@ -2,23 +2,29 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Navbar } from "../components/Navbar";
+import { CgArrowLeft } from "react-icons/cg";
 
 const Profile = () => {
-  const [profile, setProfile] = useState({ name: "", email: "", gender: "" });
+  const [profile, setProfile] = useState({
+    name: "",
+    email: "",
+    gender: "",
+    color: "",
+  });
   const navigate = useNavigate();
-  const token = localStorage.getItem("token")
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
     const checkLogin = async () => {
       try {
         const res = await axios.get(
-          "https://dbuuconnect-backend.onrender.com/check-auth",
+          `${import.meta.env.VITE_API_URI}/check-auth`,
           { headers: { Authorization: `Bearer ${token}` } },
           {
             withCredentials: true,
           }
         );
-
+        
         if (!res.data.success) {
           navigate("/");
         } else {
@@ -26,13 +32,13 @@ const Profile = () => {
             name: res.data.user.name,
             email: res.data.user.email,
             gender: res.data.user.gender || "Not specified",
+            color: res.data.user.color,
           });
         }
       } catch {
         navigate("/");
       }
     };
-
     checkLogin();
   }, [navigate]);
 
@@ -42,9 +48,17 @@ const Profile = () => {
 
       <div className="flex items-center justify-center px-4 py-10">
         <div className="w-full max-w-2xl bg-zinc-800 p-6 sm:p-10 rounded-2xl shadow-lg">
+          <button
+            onClick={() => navigate(-1)}
+            className="p-1 cursor-pointer rounded-full bg-zinc-700"
+          >
+            <CgArrowLeft className="font-bold text-md md:text-xl" />
+          </button>
           <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6">
             <div className="flex-shrink-0">
-              <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-amber-600 flex items-center justify-center text-white text-3xl font-bold">
+              <div
+              style={{ backgroundColor: profile.color }}
+              className={`w-24 h-24 sm:w-28 sm:h-28 rounded-full flex items-center justify-center text-white text-3xl font-bold`}>
                 {profile.name ? profile.name[0] : "?"}
               </div>
             </div>

@@ -45,15 +45,6 @@ const App = () => {
     },
   ];
 
-    const colors = [
-    "bg-red-500",
-    "bg-blue-500",
-    "bg-green-500",
-    "bg-yellow-500",
-    "bg-purple-500",
-    "bg-pink-500",
-    "bg-orange-500",
-  ];
   return (
     <>
       <Routes>
@@ -61,7 +52,7 @@ const App = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route path="/dashboard" element={<Dashboard cardData={cardData} />} />
-        <Route path={"/room/:id"} element={<Room colors={colors} />} />
+        <Route path={"/room/:id"} element={<Room />} />
         <Route path={"/profile"} element={<Profile />} />
       </Routes>
     </>

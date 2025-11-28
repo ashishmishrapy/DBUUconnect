@@ -7,7 +7,7 @@ export const register = async (req, res) => {
     const { name, email, password } = req.body;
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
-    await User.create({ name, email, password: hashedPassword, role: "user" });
+    await User.create({ name, email, password: hashedPassword});
     res.status(201).json({
       success: true,
       message: "User registered successfully",
@@ -26,6 +26,7 @@ export const login = async (req, res) => {
 
   try {
     const user = await User.findOne({ email });
+    
     if (!user) {
       return res
         .status(400)
@@ -45,9 +46,10 @@ export const login = async (req, res) => {
         name: user.name,
         email: user.email,
         role: user.role,
+        color: user.color
       },
       process.env.JWT_SECRET,
-      { expiresIn: "1d" }
+      { expiresIn: "3d" }
     );
 
     res.cookie("token", token, {
@@ -63,6 +65,6 @@ export const login = async (req, res) => {
   }
 };
 
-// export const logout = (req, res) => {
-//   res.json({ success: true, message: "Logged out" });
-// };
+export const logout = (req, res) => {
+  res.json({ success: true, message: "Logged out" });
+};

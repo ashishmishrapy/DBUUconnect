@@ -24,7 +24,7 @@ const Register = () => {
     }
 
     try {
-      const response = await axios.post("https://dbuuconnect-backend.onrender.com/register", form);
+      const response = await axios.post(`${import.meta.env.VITE_API_URI}/register`, form);
 
       if (response.data.success) {
         setForm({ name: "", email: "", password: "" });
