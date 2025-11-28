@@ -49,8 +49,8 @@ io.on("connection", (socket) => {
     socket.emit("roomHistory", history);
   });
 
-  socket.on("sendMessage", async ({ roomId, text, sender, color }) => {
-    const newMsg = new Message({ roomId, sender, text, color });
+  socket.on("sendMessage", async ({ roomId, type, content, sender, color }) => {
+    const newMsg = new Message({ roomId, sender, color, type, content });
     await newMsg.save();
 
     io.to(roomId).emit("message", newMsg); 
