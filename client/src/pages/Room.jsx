@@ -107,7 +107,12 @@ const Room = () => {
             <h2 className="text-sm md:text-lg font-bold">Room #{id} </h2>
           </div>
           <div ref={messagesContainerRef} className="rounded md:h-[calc(100vh_-_230px)] h-[calc(100vh_-_200px)] overflow-y-auto">
-            {messages.map((msg, i) => (
+            {
+            messages.length === 0 
+            ? 
+            <div className="p-5 flex justify-center items-center w-full md:h-[calc(100vh_-_230px)] h-[calc(100vh_-_200px)] text-zinc-400">Loading messages...</div>
+            :
+            messages.map((msg, i) => (
               <div className="p-2  hover:bg-zinc-800 hover:rounded-md" key={i}>
                 <div className="flex gap-3 items-center">
                   <span
@@ -131,14 +136,14 @@ const Room = () => {
                     </span>
                   </div>
                 </div>
-                <div className="ml-10 text-sm max-w-full overflow-x-hidden text-zinc-400 break-words whitespace-pre-wrap font-semibold">
+                <div className="ml-10 text-sm overflow-x-hidden text-zinc-400 break-words whitespace-pre-wrap font-semibold">
                   {msg.type === "text" && msg.content}
 
                   {msg.type === "image" && (
                     <a href={msg.content} download={`image-${Date.now()}.png`}>
                       <img
                         src={msg.content}
-                        className="rounded cursor-pointer"
+                        className="rounded max-w-[200px] cursor-pointer"
                       />
                     </a>
                   )}

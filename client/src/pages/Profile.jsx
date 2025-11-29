@@ -14,6 +14,15 @@ const Profile = () => {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
 
+  const logOutHandle = async () => {
+    try {
+      localStorage.removeItem("token");
+      navigate("/login");
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   useEffect(() => {
     const checkLogin = async () => {
       try {
@@ -41,6 +50,9 @@ const Profile = () => {
     };
     checkLogin();
   }, [navigate]);
+
+  console.log(profile);
+  
 
   return (
     <div className="min-h-screen bg-zinc-900">
@@ -90,11 +102,10 @@ const Profile = () => {
 
           {/* Actions */}
           <div className="mt-6 flex flex-col sm:flex-row gap-3 sm:gap-4">
-            <button className="flex-1 bg-amber-600 text-white px-4 py-2 rounded-md hover:bg-amber-500 transition">
-              Edit Profile
-            </button>
-            <button className="flex-1 bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-500 transition">
-              Logout
+            <button onClick={logOutHandle} className="flex-1 bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-500 transition">
+              <a href="/login">
+                Logout
+              </a>
             </button>
           </div>
         </div>

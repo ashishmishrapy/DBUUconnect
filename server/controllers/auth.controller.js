@@ -4,10 +4,11 @@ import { User } from "../models/user.model.js";
 
 export const register = async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password, gender } = req.body;
+    
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
-    await User.create({ name, email, password: hashedPassword});
+    await User.create({ name, email, password: hashedPassword, gender});
     res.status(201).json({
       success: true,
       message: "User registered successfully",
@@ -46,7 +47,8 @@ export const login = async (req, res) => {
         name: user.name,
         email: user.email,
         role: user.role,
-        color: user.color
+        color: user.color,
+        gender: user.gender
       },
       process.env.JWT_SECRET,
       { expiresIn: "3d" }

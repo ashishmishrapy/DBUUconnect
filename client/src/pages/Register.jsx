@@ -3,7 +3,12 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const Register = () => {
-  const [form, setForm] = useState({ name: "", email: "", password: "" });
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    password: "",
+    gender: "",
+  });
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -22,12 +27,19 @@ const Register = () => {
       alert("Password must be at least 6 characters long");
       return;
     }
+    if (!form.gender) {
+      alert("Please select your gender");
+      return;
+    }
 
     try {
-      const response = await axios.post(`${import.meta.env.VITE_API_URI}/register`, form);
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_URI}/register`,
+        form
+      );
 
       if (response.data.success) {
-        setForm({ name: "", email: "", password: "" });
+        setForm({ name: "", email: "", password: "", gender: "" });
         navigate("/login");
       }
     } catch (error) {
@@ -69,6 +81,7 @@ const Register = () => {
               className="p-2 outline-none rounded bg-zinc-800 text-white w-[90%] mb-3"
               onChange={(e) => setForm({ ...form, email: e.target.value })}
             />
+
             <input
               type="password"
               placeholder="Password"
@@ -77,6 +90,31 @@ const Register = () => {
               className="p-2 outline-none rounded bg-zinc-800 text-white w-[90%] mb-3"
               onChange={(e) => setForm({ ...form, password: e.target.value })}
             />
+
+            <div className="p-2 rounded bg-transparent text-white w-[90%] inline-block mb-3">
+              <span className="bg-zinc-800 p-2 rounded mr-5">
+                Male{" "}
+                <input
+                  className="ml-3"
+                  type="radio"
+                  name="gender"
+                  value="Male"
+                  checked={form.gender === "Male"}
+                  onChange={(e) => setForm({ ...form, gender: e.target.value })}
+                />
+              </span>
+              <span className="bg-zinc-800 p-2 rounded ml-5">
+                Female{" "}
+                <input
+                  type="radio"
+                  name="gender"
+                  value="Female"
+                  checked={form.gender === "Female"}
+                  onChange={(e) => setForm({ ...form, gender: e.target.value })}
+                  className="ml-3"
+                />
+              </span>
+            </div>
             <button
               type="submit"
               className="bg-amber-600 cursor-pointer text-white px-5 py-2 rounded hover:bg-amber-500 transition-all"
