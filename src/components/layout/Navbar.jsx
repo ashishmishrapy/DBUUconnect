@@ -36,8 +36,7 @@ export const Navbar = () => {
       }
       setDeferredPrompt(null);
     } else {
-      // Open PWABuilder to generate APK
-      window.open('https://www.pwabuilder.com/', '_blank');
+      alert('To install this app:\n\n1. On Android: Tap browser menu (⋮) → "Add to Home screen" or "Install app"\n2. On iOS: Tap Share button → "Add to Home Screen"\n3. On Desktop: Look for install icon (⊕) in address bar');
     }
   };
 
@@ -217,7 +216,7 @@ export const Navbar = () => {
             className="w-full flex items-center justify-center gap-3 px-4 py-3 rounded-lg bg-amber-600 hover:bg-amber-700 text-white transition-all font-medium"
           >
             <MdInstallMobile className="text-xl" />
-            {isInstallable ? 'Install App' : 'Download APK'}
+            {isInstallable ? 'Install App' : 'Install Instructions'}
           </button>
           <button
             onClick={logOutHandle}
