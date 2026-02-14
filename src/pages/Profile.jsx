@@ -60,6 +60,17 @@ const Profile = () => {
   const handleSaveChanges = async () => {
     setSaving(true);
     try {
+      // Validate LinkedIn URL
+      if (formData.linkedinProfile && formData.linkedinProfile.trim()) {
+        try {
+          new URL(formData.linkedinProfile);
+        } catch {
+          alert('Please enter a valid LinkedIn URL');
+          setSaving(false);
+          return;
+        }
+      }
+      
       await updateUserDocument(authUser.uid, formData);
       await fetchUserProfile();
       setIsEditing(false);
@@ -172,12 +183,13 @@ const Profile = () => {
                 <input
                   type="text"
                   value={formData.course}
-                  onChange={(e) => setFormData({ ...formData, course: e.target.value })}
+                  onChange={(e) => setFormData({ ...formData, course: e.target.value.slice(0, 5).toUpperCase() })}
                   className="w-full bg-zinc-600 text-white px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-600"
                   placeholder="Enter course"
+                  maxLength={5}
                 />
               ) : (
-                <p className="text-white font-semibold uppercase">{user?.course || "N/A"}</p>
+                <p className="text-white font-semibold uppercase">{user?.course?.slice(0, 5) || "N/A"}</p>
               )}
             </div>
             <div className="bg-zinc-700 p-4 rounded-lg">
@@ -223,9 +235,10 @@ const Profile = () => {
                 <input
                   type="url"
                   value={formData.linkedinProfile}
-                  onChange={(e) => setFormData({ ...formData, linkedinProfile: e.target.value })}
+                  onChange={(e) => setFormData({ ...formData, linkedinProfile: e.target.value.slice(0, 100) })}
                   className="w-full bg-zinc-600 text-white px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-600"
                   placeholder="LinkedIn URL"
+                  maxLength={100}
                 />
               ) : user?.linkedinProfile ? (
                 <a

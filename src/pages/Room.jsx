@@ -47,7 +47,7 @@ const Message = memo(({ msg, onReply, onProfileClick }) => {
   return (
     <div 
       id={`msg-${msg.id}`}
-      className="relative px-4 py-2 hover:bg-white/5 group transition-colors"
+      className="relative px-2 sm:px-4 py-2 hover:bg-white/5 group transition-colors"
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
@@ -58,11 +58,11 @@ const Message = memo(({ msg, onReply, onProfileClick }) => {
           <BiReply className="text-2xl" style={{ opacity: Math.min(touchOffset / 40, 1) }} />
         </div>
       )}
-      <div className="flex gap-4">
+      <div className="flex gap-2 sm:gap-4">
         <img
           src={avatarUrl}
           alt={msg.sender}
-          className="w-10 h-10 rounded-full mt-1 cursor-pointer hover:ring-2 hover:ring-amber-600 transition-all"
+          className="w-8 h-8 sm:w-10 sm:h-10 rounded-full mt-1 cursor-pointer hover:ring-2 hover:ring-amber-600 transition-all flex-shrink-0"
           loading="lazy"
           onClick={() => onProfileClick(msg.senderUsername)}
           onError={(e) => {
@@ -70,14 +70,14 @@ const Message = memo(({ msg, onReply, onProfileClick }) => {
           }}
         />
         <div className="flex-1">
-          <div className="flex items-baseline gap-2">
+          <div className="flex items-baseline gap-1 sm:gap-2">
             <span 
-              className="text-sm font-semibold text-white hover:underline cursor-pointer"
+              className="text-xs sm:text-sm font-semibold text-white hover:underline cursor-pointer"
               onClick={() => onProfileClick(msg.senderUsername)}
             >
               {msg.sender}
             </span>
-            <span className="text-[11px] text-gray-500">
+            <span className="text-[10px] sm:text-[11px] text-gray-500">
               {msg.createdAt
                 ? new Date(msg.createdAt.toDate()).toLocaleString([], {
                     month: "short",
@@ -89,17 +89,17 @@ const Message = memo(({ msg, onReply, onProfileClick }) => {
             </span>
           </div>
           {msg.replyTo && (
-            <div className="text-[11px] text-gray-500 mb-1 pl-3 border-l-2 border-gray-600">
-              <span className="font-semibold text-gray-400">{msg.replyTo.sender}</span>: {msg.replyTo.content?.substring(0, 50)}{msg.replyTo.content?.length > 50 ? '...' : ''}
+            <div className="text-[10px] sm:text-[11px] text-gray-500 mb-1 pl-2 sm:pl-3 border-l-2 border-gray-600">
+              <span className="font-semibold text-gray-400">{msg.replyTo.sender}</span>: {msg.replyTo.content?.substring(0, 30)}{msg.replyTo.content?.length > 30 ? '...' : ''}
             </div>
           )}
-          <div className="text-gray-300 text-[15px] mt-0.5 break-words">
+          <div className="text-gray-300 text-sm sm:text-[15px] mt-0.5 break-words">
             {msg.type === "text" && renderContent(msg.content)}
             {msg.type === "image" && (
               <img
                 src={msg.content}
                 alt="Shared"
-                className="rounded-lg max-w-full w-auto h-auto max-h-96 mt-2 cursor-pointer object-contain"
+                className="rounded-lg max-w-full w-auto h-auto max-h-64 sm:max-h-96 mt-2 cursor-pointer object-contain"
                 loading="lazy"
               />
             )}
@@ -224,15 +224,15 @@ const Room = () => {
       {/* Main Chat Area */}
       <div className="flex-1 flex flex-col">
         {/* Chat Header */}
-        <div className="h-12 px-4 flex items-center border-b border-white/10 bg-white/5 backdrop-blur-xl shadow-lg">
+        <div className="h-14 sm:h-12 px-3 sm:px-4 flex items-center border-b border-white/10 bg-white/5 backdrop-blur-xl shadow-lg">
           <button
             onClick={() => navigate(-1)}
-            className="text-gray-400 hover:text-white transition-colors mr-3"
+            className="text-gray-400 hover:text-white transition-colors mr-2 sm:mr-3"
           >
-            <IoArrowBack className="text-xl" />
+            <IoArrowBack className="text-lg sm:text-xl" />
           </button>
-          <HiHashtag className="text-gray-400 text-xl mr-2" />
-          <h2 className="text-white font-semibold text-[15px]">global-chat</h2>
+          <HiHashtag className="text-gray-400 text-lg sm:text-xl mr-1 sm:mr-2" />
+          <h2 className="text-white font-semibold text-sm sm:text-[15px]">global-chat</h2>
         </div>
 
         {/* Messages Area */}
@@ -250,38 +250,38 @@ const Room = () => {
         </div>
 
         {/* Message Input */}
-        <div className="p-4 bg-transparent relative">
+        <div className="p-2 sm:p-4 bg-transparent relative">
           {showMentions && filteredUsers.length > 0 && (
-            <div className="absolute bottom-full left-4 right-4 mb-2 bg-white/10 backdrop-blur-xl border border-white/10 rounded-lg overflow-hidden max-h-48">
+            <div className="absolute bottom-full left-2 right-2 sm:left-4 sm:right-4 mb-2 bg-white/10 backdrop-blur-xl border border-white/10 rounded-lg overflow-hidden max-h-48">
               {filteredUsers.map(u => (
                 <div
                   key={u.id}
                   onClick={() => insertMention(u.username)}
-                  className="px-4 py-2 hover:bg-white/10 cursor-pointer flex items-center gap-2"
+                  className="px-3 sm:px-4 py-2 hover:bg-white/10 cursor-pointer flex items-center gap-2"
                 >
-                  <img src={u.avatar} alt={u.name} className="w-6 h-6 rounded-full" />
-                  <span className="text-white text-sm">{u.username}</span>
+                  <img src={u.avatar} alt={u.name} className="w-5 h-5 sm:w-6 sm:h-6 rounded-full" />
+                  <span className="text-white text-xs sm:text-sm">{u.username}</span>
                 </div>
               ))}
             </div>
           )}
           {replyingTo && (
-            <div className="bg-white/5 backdrop-blur-xl rounded-t-lg px-4 py-2 flex items-center justify-between border border-white/10">
-              <div className="text-[11px] text-gray-500">
+            <div className="bg-white/5 backdrop-blur-xl rounded-t-lg px-3 sm:px-4 py-2 flex items-center justify-between border border-white/10">
+              <div className="text-[10px] sm:text-[11px] text-gray-500 flex-1 min-w-0">
                 <span className="text-white font-semibold text-xs">Replying to {replyingTo.sender}</span>
-                <p className="truncate">{replyingTo.content?.substring(0, 50)}</p>
+                <p className="truncate">{replyingTo.content?.substring(0, 30)}</p>
               </div>
-              <button onClick={() => setReplyingTo(null)} className="text-gray-500 hover:text-white text-sm">
+              <button onClick={() => setReplyingTo(null)} className="text-gray-500 hover:text-white text-sm ml-2 flex-shrink-0">
                 ✕
               </button>
             </div>
           )}
-          <div className="bg-white/5 backdrop-blur-xl rounded-lg flex items-center px-4 py-3 shadow-lg border border-white/10">
+          <div className="bg-white/5 backdrop-blur-xl rounded-lg flex items-center px-2 sm:px-4 py-2 sm:py-3 shadow-lg border border-white/10">
             <button
               onClick={() => document.getElementById("imageUpload").click()}
-              className="text-gray-400 hover:text-gray-200 transition-colors mr-3"
+              className="text-gray-400 hover:text-gray-200 transition-colors mr-2 sm:mr-3 flex-shrink-0"
             >
-              <BsPlusCircleFill className="text-2xl" />
+              <BsPlusCircleFill className="text-xl sm:text-2xl" />
             </button>
             <input
               type="file"
@@ -299,7 +299,7 @@ const Room = () => {
               }}
             />
             <input
-              className="flex-1 bg-transparent outline-none text-white placeholder-gray-500 text-[15px]"
+              className="flex-1 bg-transparent outline-none text-white placeholder-gray-500 text-sm sm:text-[15px] min-w-0"
               disabled={!user}
               value={newMessage}
               onKeyDown={(e) => {
@@ -308,15 +308,15 @@ const Room = () => {
                   sendMessage("text");
                 }
               }}
-              placeholder="Message #global-chat"
+              placeholder="Message..."
               onChange={handleInputChange}
             />
             <button
               onClick={() => sendMessage("text")}
               disabled={!newMessage.trim()}
-              className="text-gray-400 hover:text-white transition-colors ml-3 disabled:opacity-30"
+              className="text-gray-400 hover:text-white transition-colors ml-2 sm:ml-3 disabled:opacity-30 flex-shrink-0"
             >
-              <IoMdSend className="text-2xl" />
+              <IoMdSend className="text-xl sm:text-2xl" />
             </button>
           </div>
         </div>
