@@ -10,7 +10,7 @@ import { collection, addDoc, query, orderBy, onSnapshot, serverTimestamp, limit,
 import { db } from "../firebase/config";
 
 // Memoized Message Component
-const Message = memo(({ msg, onReply }) => {
+const Message = memo(({ msg, onReply, onProfileClick }) => {
   const [touchStart, setTouchStart] = useState(0);
   const [touchOffset, setTouchOffset] = useState(0);
   const avatarUrl = msg.avatar || "https://www.citypng.com/public/uploads/preview/white-user-member-guest-icon-png-image-701751695037005zdurfaim0y.png";
@@ -62,15 +62,19 @@ const Message = memo(({ msg, onReply }) => {
         <img
           src={avatarUrl}
           alt={msg.sender}
-          className="w-10 h-10 rounded-full mt-1"
+          className="w-10 h-10 rounded-full mt-1 cursor-pointer hover:ring-2 hover:ring-amber-600 transition-all"
           loading="lazy"
+          onClick={() => onProfileClick(msg.senderUsername)}
           onError={(e) => {
             e.target.src = "https://www.citypng.com/public/uploads/preview/white-user-member-guest-icon-png-image-701751695037005zdurfaim0y.png";
           }}
         />
         <div className="flex-1">
           <div className="flex items-baseline gap-2">
-            <span className="text-sm font-semibold text-white hover:underline cursor-pointer">
+            <span 
+              className="text-sm font-semibold text-white hover:underline cursor-pointer"
+              onClick={() => onProfileClick(msg.senderUsername)}
+            >
               {msg.sender}
             </span>
             <span className="text-[11px] text-gray-500">
@@ -178,6 +182,7 @@ const Room = () => {
     try {
       await addDoc(collection(db, "messages"), {
         sender: user.name,
+        senderUsername: user.username,
         avatar: user.avatar || "https://www.citypng.com/public/uploads/preview/white-user-member-guest-icon-png-image-701751695037005zdurfaim0y.png",
         color: user.color,
         type,
@@ -240,7 +245,7 @@ const Room = () => {
               No messages yet. Start the conversation!
             </div>
           ) : (
-            messages.map((msg) => <Message key={msg.id} msg={msg} onReply={setReplyingTo} />)
+            messages.map((msg) => <Message key={msg.id} msg={msg} onReply={setReplyingTo} onProfileClick={(username) => navigate(`/user/${username}`)} />)
           )}
         </div>
 
