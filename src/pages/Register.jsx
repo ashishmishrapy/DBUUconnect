@@ -60,6 +60,7 @@ const Register = () => {
       });
 
       setForm({ name: "", email: "", password: "" });
+      alert('Registration successful! Please check your email to verify your account before logging in.');
       navigate("/login");
     } catch (error) {
       console.error("Registration error:", error);

@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect } from "react";
-import { onAuthChange, checkSessionValidity } from "../firebase/auth";
+import { onAuthChange } from "../firebase/auth";
 import { getUserDocument } from "../firebase/firestore";
 
 const AuthContext = createContext();
@@ -11,13 +11,6 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const unsubscribe = onAuthChange(async (firebaseUser) => {
       if (firebaseUser) {
-        const isValid = await checkSessionValidity();
-        if (!isValid) {
-          setUser(null);
-          setLoading(false);
-          return;
-        }
-        
         const userData = await getUserDocument(firebaseUser.uid);
         if (userData) {
           setUser({ ...userData, uid: firebaseUser.uid, email: firebaseUser.email });
@@ -32,20 +25,6 @@ export const AuthProvider = ({ children }) => {
 
     return () => unsubscribe();
   }, []);
-
-  useEffect(() => {
-    if (!user) return;
-
-    // Check session validity every 10 minutes
-    const interval = setInterval(async () => {
-      const isValid = await checkSessionValidity();
-      if (!isValid) {
-        setUser(null);
-      }
-    }, 10 * 60 * 1000);
-
-    return () => clearInterval(interval);
-  }, [user?.uid]);
 
   const login = (userData) => {
     setUser(userData);
